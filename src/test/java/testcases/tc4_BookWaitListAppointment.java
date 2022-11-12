@@ -2,6 +2,7 @@ package testcases;
 
 import java.time.Duration;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,6 +11,7 @@ import org.testng.annotations.Test;
 
 import com.github.javafaker.Faker;
 
+import commons.DriverSetup;
 import commons.Login;
 import commons.SchedulerUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -22,46 +24,46 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * +----------------------------------------------------------------------------+
  */
 
-public class tc4_BookWaitListAppointment extends SchedulerUtils{
-	
-	static WebDriver driver;
-	static WebDriverWait wait;
-	
+public class tc4_BookWaitListAppointment {
+
+	WebDriver driver;
+	WebDriverWait wait;
 	Faker faker = new Faker();
-	
+
+
 	@BeforeTest
-	public static void setup() {
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(20));
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-		driver.manage().window().maximize();
+	public void setup() {
+
+		DriverSetup ds = new DriverSetup();
+		driver = ds.setupDriver();
+		wait = ds.setupDriverWait(driver);
 		driver.get("https://staging-admin.eyebooknow.com");
 	}
-	
 
 	@Test
-	public void loginToStellest () {
-		//login
-		Login.verifyLoginToAdminPage(driver); 																		//call method to login		
-	}
-	
-	@Test
-	public void bookWaitListAppointment() {
-		
-		driver.findElement(addApptBtn).click();
-		driver.findElement(apptFirstNameText).sendKeys(faker.funnyName().toString());
-		driver.findElement(apptLastNameText).sendKeys(faker.funnyName().toString());
-		driver.findElement(apptPhoneText).sendKeys("555555555");
-		driver.findElement(apptServiceDrp).click();
-		driver.findElement(apptServiceList).click();
-		driver.findElement(apptWaitListChkBx).click();
-		driver.findElement(apptBookBtn).click();
-		
-		
-		
+	public void loginToStellest() {
+		// login
+		Login login = new Login(driver);
+		login.verifyLoginToAdminPage(); // call method to login
 	}
 
+	@Test
+	public void inputApptDetails() throws InterruptedException {
+		
+		SchedulerUtils sUtils = new SchedulerUtils(driver); 
+		
+		Thread.sleep(10000);
+		sUtils.clickAddApttBtn();
+		
+		driver.findElement(sUtils.apptFirstNameText).sendKeys(faker.funnyName().toString());
+		driver.findElement(sUtils.apptLastNameText).sendKeys(faker.funnyName().toString());
+		driver.findElement(sUtils.apptPhoneText).sendKeys("555555555");
+		driver.findElement(sUtils.apptServiceDrp).click();
+		driver.findElement(sUtils.apptServiceList).click();
+		driver.findElement(sUtils.apptWaitListChkBx).click();
+		
+		sUtils.clickBookBtn();
+		
+	}
 
 }
