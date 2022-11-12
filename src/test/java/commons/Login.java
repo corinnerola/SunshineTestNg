@@ -8,32 +8,40 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Login{
 
-	static WebDriver driver;
+	WebDriver driver;
+	WebDriverWait wait;
 
 	// login page xpaths
-	public static By emailInputText = By.xpath("//ancestor::form[@class='login-norm__form']//input[@type='text']");
-	public static By passwordInputText = By.xpath("//ancestor::div[@class='login-norm__group']//input[@type='password']");
-	public static By loginBtn = By.xpath("//ancestor::form[@class='login-norm__form']//button[@class='login-norm__login']");
+	By emailInputText = By.xpath("//parent::div/div[@class='login']/section/following-sibling::section/div/h1/following-sibling::h3[@class='login-norm__subtitle']/following-sibling::form/div/div/fieldset/preceding-sibling::input[@type='text']");
+	By passwordInputText = By.xpath("//ancestor::div/div[@class='login']/section/following-sibling::section/div/h1/following-sibling::h3[@class='login-norm__subtitle']/following-sibling::form/div/following-sibling::div/div/div/fieldset/preceding-sibling::input[@type='password']");
+	By loginBtn = By.xpath("//ancestor::div/div[@class='login']/section/following-sibling::section/div/h1/following-sibling::h3[@class='login-norm__subtitle']/following-sibling::form/div/following-sibling::button[@class='login-norm__login']");
 
 	// values
-	public static String userEmail[] = {"marc.marcella+SGSTAGEStellest06@ext.essilor.com", "laurencehanz.villamar+STGmyAUTO1@essilor.com"};
-	public static String password = "Abcd1234%^";
+	String userEmail = "marc.marcella+SGSTAGEStellest06@ext.essilor.com";
+	String userEmailAdmin = "laurencehanz.villamar+STGmyAUTO1@essilor.com";
+	String password = "Abcd1234%^";
 	
+	public Login(WebDriver driver) {
+		this.driver = driver;
+		
+	}
 
 
-	public static void verifyLoginToStellestCare(WebDriver driver) {
-		driver.findElement(emailInputText).sendKeys(userEmail[0]);
+
+	public void verifyLoginToStellestCare() { 
+		driver.findElement(emailInputText).sendKeys(userEmail);
 		driver.findElement(passwordInputText).sendKeys(password);
 		driver.findElement(loginBtn).click();
 
 	}
 	
-	public static void verifyLoginToAdminPage(WebDriver driver) {
-		driver.findElement(emailInputText).sendKeys(userEmail[1]);
+	public void verifyLoginToAdminPage() {
+		driver.findElement(emailInputText).sendKeys(userEmailAdmin);
 		driver.findElement(passwordInputText).sendKeys(password);
 		driver.findElement(loginBtn).click();
 		
 		
 	}
+
 
 }
