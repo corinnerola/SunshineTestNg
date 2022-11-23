@@ -45,14 +45,7 @@ public class tc5_BookAppointment {
 
 		sUtils.inputFName();
 		sUtils.inputLName();
-		sUtils.inputPhoneNumber();
-		sUtils.inputEmail();
-		sUtils.clickService();
-		sUtils.clickSunglasses();
-		sUtils.clickTimeDropdown();
-		
-
-		sUtils.selectTime();
+		sUtils.inputNonWaitlistApptDetails();
 		sUtils.clickBookBtn();
 		
 		driver.navigate().refresh();

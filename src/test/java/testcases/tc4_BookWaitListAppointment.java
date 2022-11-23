@@ -60,11 +60,7 @@ public class tc4_BookWaitListAppointment {
 
 		sUtils.inputFName();
 		sUtils.inputLName();
-		sUtils.inputPhoneNumber();
-		sUtils.inputEmail();
-		sUtils.clickService();
-		sUtils.clickSunglasses();
-		sUtils.selectWaitlist();
+		sUtils.inputWaitlistAppDetails();
 
 		sUtils.clickBookBtn();
 

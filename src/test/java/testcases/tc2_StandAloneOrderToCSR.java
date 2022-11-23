@@ -1,15 +1,13 @@
 package testcases;
 
-import java.time.Duration;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import commons.DriverSetup;
 import commons.Login;
@@ -27,7 +25,7 @@ public class tc2_StandAloneOrderToCSR {
 
 	WebDriver driver;
 	WebDriverWait wait;
-	String fileToUpload = "C:\\Users\\caryll.rola\\Downloads\\download.jpg";
+	
 
 	@BeforeTest
 	public void setup() {
@@ -52,24 +50,17 @@ public class tc2_StandAloneOrderToCSR {
 		RegFormUtils rfUtils = new RegFormUtils(driver);
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(rfUtils.stellestBtn));
+		
 		rfUtils.clickStellestBtn(); // click stellest button
-
 		rfUtils.getCustomerDetails(); // call method for customer details input
-		rfUtils.inputRefNo().sendKeys(rfUtils.refnumberVal);
-
-		rfUtils.clickMediumDrp();
+		rfUtils.inputRefNo();
+		rfUtils.clickMediumDrp();		
 		rfUtils.clickUploadRx();
-
-		driver.findElement(rfUtils.fileUpload).sendKeys(fileToUpload);
-
+		rfUtils.uploadRx();
 		rfUtils.clickSaveFleBtn();
-
 		rfUtils.clickFinishBtn();
-
 		rfUtils.clickSubmitBtn();
-
 		rfUtils.clickCloseBtn();
-
 		rfUtils.clickViewOrderDetails(); // click the order created to view details
 
 	}
@@ -79,7 +70,6 @@ public class tc2_StandAloneOrderToCSR {
 
 		RegFormUtils rfUtils = new RegFormUtils(driver);
 
-		tc1_StandAloneOrderToLab tc1 = new tc1_StandAloneOrderToLab(driver);
 
 		for (int i = 0; i <= 2; i++) {
 			try {
@@ -91,9 +81,17 @@ public class tc2_StandAloneOrderToCSR {
 		}
 
 		rfUtils.clickDigitalRx();
-		tc1.inputDigitalRx();
+		rfUtils.inputDigitalRx();
+		rfUtils.clickSubmitBtn(); // submit order
 
-		tc1.submitAndViewOrder();
+		SoftAssert softAssertion = new SoftAssert();
+		softAssertion.assertEquals(driver.findElement(By.xpath("//div[@class='success-container']/h2")).getText(),
+				"Success!"); // success order checking
+		softAssertion.assertAll();
+
+		rfUtils.clickCloseBtn();
+		rfUtils.clickViewOrderDetails(); // click the order created to view details
+		rfUtils.clickOrderDetailsDrp(); // collapse area to expand details
 
 	}
 
