@@ -28,23 +28,23 @@ public class RegFormUtils {
 	
 	// GENERATE NAMES, NUMBERS AND DATES
 	Faker faker = new Faker();
-	public String refnumberVal = faker.number().digits(7);
+	String refnumberVal = faker.number().digits(7);
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-	public String randomDOB = sdf.format(faker.date().birthday(0, 17));
+	String randomDOB = sdf.format(faker.date().birthday(0, 17));
 	
 	
 	// DIGITAL PRESCRIPTION
-	public float sphValR 	= faker.number().numberBetween(-9, 0);
-	public float sphValL 	= faker.number().numberBetween(-9, 0);
-	public float cylValR 	= faker.number().numberBetween(-4, 0);
-	public float cylValL 	= faker.number().numberBetween(-4, 0);
-	public float axisValR 	= faker.number().numberBetween(0, 180);
-	public float axisValL 	= faker.number().numberBetween(0, 180);
-	public float pdValR 	= faker.number().numberBetween(10, 40);
-	public float pdValL 	= faker.number().numberBetween(10, 40);
-	public float htValR 	= faker.number().numberBetween(10, 40);
-	public float htValL 	= faker.number().numberBetween(10, 40);
+	float sphValR 	= faker.number().numberBetween(-9, 0);
+	float sphValL 	= faker.number().numberBetween(-9, 0);
+	float cylValR 	= faker.number().numberBetween(-4, 0);
+	float cylValL 	= faker.number().numberBetween(-4, 0);
+	float axisValR 	= faker.number().numberBetween(0, 180);
+	float axisValL 	= faker.number().numberBetween(0, 180);
+	float pdValR 	= faker.number().numberBetween(10, 40);
+	float pdValL 	= faker.number().numberBetween(10, 40);
+	float htValR 	= faker.number().numberBetween(10, 40);
+	float htValL 	= faker.number().numberBetween(10, 40);
 	
 
 	// COMMON XPATHS IN CUSTOMER DETAILS 
@@ -58,7 +58,7 @@ public class RegFormUtils {
 	By pPhoneText 			= By.xpath("//div[@class='MuiFormControl-root gender row-end']/preceding-sibling::div[1]/label/following-sibling::div/input[@id='phone']");
 	
 	//COMMON XPATHS IN NEW ORDER
-
+	String fileToUpload = "C:\\Users\\caryll.rola\\Downloads\\download.jpg";
 	By refNumberText 	= By.xpath("//ancestor::div[@id='stellest-form']/div/div[@class='eyebooknow-brand']/following-sibling::button[contains(@class,\"back-btn\")]/parent::div/following-sibling::div/div/following-sibling::div/following-sibling::div[contains(@class,\"medical-details\")]/div[@class=\"left-col\"]/div[contains(@class,\"cs-comments\")]/preceding-sibling::div[contains (@class,\"product-picker\")]/following-sibling::div[2]/div[contains (@class,\"MuiInputBase-root\")]/input[@id='order-ref']");
 	By sphRightText 	= By.xpath("//ancestor::div[@id='stellest-form']/div/div[@class='eyebooknow-brand']/following-sibling::button[contains(@class,\"back-btn\")]/parent::div/following-sibling::div/div/following-sibling::div/following-sibling::div[contains(@class,\"medical-details\")]/div[@class=\"right-col\"]/div/div[@class='fields']/div[1]/div/div/input[@id='sphere-right']");
 	By cylRightText	 	= By.xpath("//ancestor::div[@id='stellest-form']/div/div[@class='eyebooknow-brand']/following-sibling::button[contains(@class,\"back-btn\")]/parent::div/following-sibling::div/div/following-sibling::div/following-sibling::div[contains(@class,\"medical-details\")]/div[@class=\"right-col\"]/div/div[@class='fields']/div[1]/div/div/input[@id='cylinder-right']");
@@ -76,7 +76,7 @@ public class RegFormUtils {
 	By mediumDrp2		= By.xpath("//h2[contains (text(), 'New Order')]/following-sibling::div[@class='left-col']/div[2]/div/div[contains (@id, 'order-submission-medium')]");
 	By uploadRx 		= By.xpath("//ul[@role='listbox']/li/following-sibling::li[contains (text(), 'Upload')]");
 	By digitalRx		= By.xpath("//ul[@role='listbox']/li[contains (text(), 'Digital')]");
-	public By fileUpload = By.xpath("//div[@class='prescription-upload__workspace']/div[contains (text(), 'Photo Upload')]/following-sibling::div[contains (@class, 'workspace-surface')]/section[@class= 'dropzone']/input");
+	By fileUpload = By.xpath("//div[@class='prescription-upload__workspace']/div[contains (text(), 'Photo Upload')]/following-sibling::div[contains (@class, 'workspace-surface')]/section[@class= 'dropzone']/input");
 	By saveFileBtn 		= By.xpath("//div[@class='prescription-upload__workspace']/following-sibling::div[contains (@class, 'upload__controls')]/button[@id='prescription-upload__save']");
 	By finishBtn 		= By.xpath("//div[contains (@class, 'MuiDialog-paperScrollPaper')]/div[@class='close-btn-container']/following-sibling::div[@id = 'simple-dialog-title']/following-sibling::div/following-sibling::div[contains (@class, 'MuiDialogActions')]/button[text()='FINISH']");
 	
@@ -89,7 +89,7 @@ public class RegFormUtils {
 	}
 
 	
-	public RegFormUtils getCustomerDetails() {
+	public void getCustomerDetails() {
 		
 		// fill registration form
 		driver.findElement(cFirstNameText).sendKeys(faker.pokemon().name().toString());
@@ -100,57 +100,30 @@ public class RegFormUtils {
 		driver.findElement(pEmailText).sendKeys("caryll.rola@ext.essilor.com");
 		driver.findElement(pPhoneText).sendKeys("555555555");
 		
-		return this;
+		
 	}
 	
-	public By clickStellestBtn() {
+	public void inputDigitalRx() {
+		driver.findElement(sphRightText).sendKeys(Float.toString(sphValR));
+		driver.findElement(sphLeftText).sendKeys(Float.toString(sphValL));
+		driver.findElement(cylRightText).sendKeys(Float.toString(cylValR));
+		driver.findElement(cylLeftText).sendKeys(Float.toString(cylValL));
+		driver.findElement(axisRightText).sendKeys(Float.toString(axisValR));
+		driver.findElement(axisLeftText).sendKeys(Float.toString(axisValL));
+		driver.findElement(pdRightText).sendKeys(Float.toString(pdValR));
+		driver.findElement(pdLeftText).sendKeys(Float.toString(pdValL));
+		driver.findElement(htRightText).sendKeys(Float.toString(htValR));
+		driver.findElement(htLeftText).sendKeys(Float.toString(htValL));
+	}
+	
+	public void clickStellestBtn() {
 		driver.findElement(stellestBtn).click();
-		return stellestBtn;
 	}
 	
-	public WebElement inputRefNo() {
-		return driver.findElement(refNumberText);
+	public void inputRefNo() {
+		driver.findElement(refNumberText).sendKeys(refnumberVal);
 	}
 	
-	public WebElement inputSphR(){
-		return driver.findElement(sphRightText);				
-	}
-	
-	public WebElement inputSphL(){
-		return driver.findElement(sphLeftText);		
-	}
-	
-	public WebElement inputCylR() {
-		return driver.findElement(cylRightText);	
-	}
-	
-	public WebElement inputCylL() {
-		return driver.findElement(cylLeftText);
-	}
-	
-	public WebElement inputAxisR() {
-		return driver.findElement(axisRightText);
-	}
-	
-	public WebElement inputAxisL() {
-		return driver.findElement(axisLeftText);
-	}
-	
-	public WebElement inputPdR () {
-		return driver.findElement(pdRightText);
-	}
-	
-	public WebElement inputPdL () {
-		return driver.findElement(pdLeftText);
-	}
-	
-	public WebElement inputHtR() {
-		return driver.findElement(htRightText);
-	}
-	
-	public WebElement inputHtL() {
-		return driver.findElement(htLeftText);		
-	}
 	
 	public RegFormUtils clickSubmitBtn() {
 		driver.findElement(submitBtn).click();
@@ -201,6 +174,10 @@ public class RegFormUtils {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(finishBtn));
 		driver.findElement(finishBtn).click();
 		return this;
+	}
+	
+	public void uploadRx() {
+		driver.findElement(fileUpload).sendKeys(fileToUpload);
 	}
 	
 }
