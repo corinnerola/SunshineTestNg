@@ -1,5 +1,9 @@
 package testcases;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,14 +39,14 @@ public class tc2_StandAloneOrderToCSR {
 
 	}
 
-	@Test
+	@Test(priority = 1)
 	public void loginToStellest() {
 		// login
 		Login login = new Login(driver);
 		login.verifyLoginToStellestCare(); // call method to login
 	}
 
-	@Test
+	@Test(priority = 2)
 	public void submitStandAloneOrderToCSR() throws InterruptedException {
 
 		RegFormUtils rfUtils = new RegFormUtils(driver);
@@ -50,10 +54,11 @@ public class tc2_StandAloneOrderToCSR {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(rfUtils.stellestBtn));
 		rfUtils.clickStellestBtn(); // click stellest button
 
-		rfUtils.enterCustomerDetails(); // call method for customer details input
+		rfUtils.getCustomerDetails(); // call method for customer details input
 		rfUtils.inputRefNo().sendKeys(rfUtils.refnumberVal);
 
-		rfUtils.clickUploadPhotoList();
+		rfUtils.clickMediumDrp();
+		rfUtils.clickUploadRx();
 
 		driver.findElement(rfUtils.fileUpload).sendKeys(fileToUpload);
 
@@ -66,7 +71,29 @@ public class tc2_StandAloneOrderToCSR {
 		rfUtils.clickCloseBtn();
 
 		rfUtils.clickViewOrderDetails(); // click the order created to view details
-		Thread.sleep(5000); // for viewwing purposes lol
+
+	}
+
+	@Test(priority = 3)
+	public void completeOrder() throws InterruptedException {
+
+		RegFormUtils rfUtils = new RegFormUtils(driver);
+
+		tc1_StandAloneOrderToLab tc1 = new tc1_StandAloneOrderToLab(driver);
+
+		for (int i = 0; i <= 2; i++) {
+			try {
+				rfUtils.clickMediumDrp();
+				break;
+			} catch (Exception e) {
+				System.out.print(e.getMessage());
+			}
+		}
+
+		rfUtils.clickDigitalRx();
+		tc1.inputDigitalRx();
+
+		tc1.submitAndViewOrder();
 
 	}
 
